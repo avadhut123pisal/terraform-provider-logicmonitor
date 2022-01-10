@@ -72,6 +72,9 @@ func (c *Config) SetAccountDomain(accountDomain *string) {
 // New creates a new LM sdk go client
 func New(c *Config) *LMSdkGo {
 	transport := httptransport.New(c.TransportCfg.Host, c.TransportCfg.BasePath, c.TransportCfg.Schemes)
+	transport.Producers["application/version4+json"] = runtime.JSONProducer()
+	transport.Producers["application/json; charset=utf-8"] = runtime.JSONProducer()
+
 	authInfo := LMv1Auth(*c.AccessID, *c.AccessKey)
 
 	cli := new(LMSdkGo)
@@ -171,6 +174,6 @@ func LMv1Auth(accessId, accessKey string) runtime.ClientAuthInfoWriter {
 		hexDigest := hex.EncodeToString(h.Sum(nil))
 		signature := base64.StdEncoding.EncodeToString([]byte(hexDigest))
 		r.SetHeaderParam("Authorization", fmt.Sprintf("LMv1 %s:%s:%s", accessId, signature, epoch))
-		return r.SetHeaderParam("X-version", "2")
+		return r.SetHeaderParam("X-version", "4")
 	})
 }

@@ -198,6 +198,17 @@ func makeDeviceCollectorObject(d *schema.ResourceData) models.Collector {
 	return output
 }
 
+// add lmotel collector helper functions
+func makeDeviceLmotelCollectorObject(d *schema.ResourceData) models.LmotelCollector {
+	output := models.LmotelCollector{
+		CollectorType: d.Get("collector_type").(string),
+		Format:        d.Get("format").(string),
+		Platform:      d.Get("platform").(string),
+		Version:       d.Get("build").(string),
+	}
+	return output
+}
+
 // function to remove an item from array
 func remove(s []string, r string) []string {
 	for i, v := range s {

@@ -31,6 +31,7 @@ func Provider() terraform.ResourceProvider {
 		},
 		ResourcesMap: map[string]*schema.Resource{
 			"logicmonitor_collector":       resourceCollector(),
+			"logicmonitor_lmotelcollector": resourceLmotelCollector(),
 			"logicmonitor_collector_group": resourceCollectorGroup(),
 			"logicmonitor_dashboard":       resourceDashboard(),
 			"logicmonitor_dashboard_group": resourceDashboardGroup(),
