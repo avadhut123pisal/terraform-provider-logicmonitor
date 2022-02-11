@@ -83,12 +83,12 @@ func resourceLmotelCollector() *schema.Resource {
 //resource function to add collector
 func addLmotelCollector(d *schema.ResourceData, m interface{}) error {
 	client := m.(*lmclient.LMSdkGo)
-	lmotelcollector := makeDeviceLmotelCollectorObject(d) // need to add new function makeDeviceLmotelCollectorObject
+	lmotelcollector := makeDeviceLmotelCollectorObject(d)
 	params := lm.NewAddLmotelCollectorParams()
 	params.SetBody(&lmotelcollector)
 	// calling API to add collector to portal
 	log.Printf("Adding lmotel collector")
-	restCollectorResponse, err := client.LM.AddLmotelCollector(params) //Changed restCollectorResponse to restLmotelCollectorResponse
+	restCollectorResponse, err := client.LM.AddLmotelCollector(params)
 	if err != nil {
 		return err
 	}
@@ -125,6 +125,7 @@ func readLmotelCollector(d *schema.ResourceData, m interface{}) error {
 	// d.Set("backup_collector_id", restCollectorResponse.Payload.BackupAgentID)
 	// d.Set("collector_group_id", restCollectorResponse.Payload.CollectorGroupID)
 	d.Set("description", restCollectorResponse.Payload.Data.ByID.LmotelCollectors[restCollectorResponse.Payload.Data.AllIds[0].ID].Description)
+	d.Set("downloadurl", restCollectorResponse.Payload.Data.ByID.LmotelCollectors[restCollectorResponse.Payload.Data.AllIds[0].ID].DownloadURL)
 	// d.Set("enable_failback", restCollectorResponse.Payload.EnableFailBack)
 	// d.Set("enable_collector_device_failover", restCollectorResponse.Payload.EnableFailOverOnCollectorDevice)
 	// d.Set("escalation_chain_id", restCollectorResponse.Payload.EscalatingChainID)
@@ -148,7 +149,7 @@ func updateLmotelCollector(d *schema.ResourceData, m interface{}) error {
 	log.Printf("Currently Update lmotel-collector is not supported. ")
 	log.Printf("You may can delete it by **terrarorm destroy** and create it again... ")
 
-	// collector := makeDeviceLmotelCollectorObject(d) // Replased makeDeviceCollectorObject with makeDeviceLmotelCollectorObject
+	// collector := makeDeviceLmotelCollectorObject(d)
 
 	// // get collector id
 	// id, err := strconv.Atoi(d.Id())
